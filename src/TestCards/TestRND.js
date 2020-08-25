@@ -54,10 +54,17 @@ const  TestRND =(props)=>
           //y: 100,
           //z: 0.5
       }}
-      
+      onDrag={(e,d)=>{onStop(d.x,d.y)}}
       //style={{backgroundColor:"blue" , borderBlockColor:"red"}}
-      onResize={(e, direction, ref, delta, position) => {//console.log("Height & Width",(ref.offsetHeight),(ref.offsetWidth))
-                }}
+      onResize={(e, direction, ref, delta, position) => {
+        setState({
+          width: ref.style.width,
+          height: ref.style.height,
+          x: state.x, y: state.y,
+          ...position,
+          ...state.center
+        });
+      }}
     //  minWidth={480}
      // minHeight={627}
       size={{ width: state.width,  height: state.height }}

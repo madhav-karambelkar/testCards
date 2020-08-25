@@ -10,25 +10,23 @@ const  TestRND =(props)=>
         height:'300px',
         x:0,
         y:0,
-        center : [{
-          innerX: window.innerHeight/2,
-          innerY: window.innerWidth/2
-        }]
+        innerX: window.innerHeight/2,
+        innerY: window.innerWidth/2  
       }
     )
-    console.log("Card State",state)
+    //console.log("Card State",state)
     var innerCenter = 
     {
       innerX: window.innerHeight/2,
       innerY: window.innerWidth/2
     }
-    console.log("Inner CARD center h W", innerCenter.innerX , innerCenter.innerY);
+    //console.log("Inner CARD center h W", innerCenter.innerX , innerCenter.innerY,window.pageXOffset,window.pageYOffset);
     const onStop = (d_x,d_y) =>
     {
       var xDiff = d_x - innerCenter.innerX; 
 	    var yDiff = d_y - innerCenter.innerY;
       var distance = Math.sqrt(xDiff*xDiff + yDiff*yDiff);
-      setState({ x:  d_x , y:  d_y, width: state.width,  height: state.height , ...state.center})
+      setState({ x:  Math.abs(xDiff)  , y: Math.abs(yDiff), width: state.width,  height: state.height ,innerY:state.innerY,innerX:state.innerX})
       var heightInPX = state.height.match(/\d+/g);
       var widthInPX = state.width.match(/\d+/g);
       props.coordinate({
@@ -40,46 +38,38 @@ const  TestRND =(props)=>
         old_y:state.y , 
         old_x:state.x,
         distance:distance,
-        center:state.center
+        innerY:state.innerY,innerX:state.innerX
       })
       
     }
     return(
-        <>
+    <>
       
         
-         <Rnd
-        default={{
-         // x: 100,
-          //y: 100,
-          //z: 0.5
-      }}
-      onDrag={(e,d)=>{onStop(d.x,d.y)}}
-      //style={{backgroundColor:"blue" , borderBlockColor:"red"}}
-      onResize={(e, direction, ref, delta, position) => {
-        setState({
-          width: ref.style.width,
-          height: ref.style.height,
-          x: state.x, y: state.y,
-          ...position,
-          ...state.center
-        });
-      }}
-    //  minWidth={480}
-     // minHeight={627}
-      size={{ width: state.width,  height: state.height }}
-      position={{ x: state.x, y: state.y }}
-      onDragStop={(e, d) => { onStop(d.x,d.y) }}
-      onResizeStop={(e, direction, ref, delta, position) => {
-        setState({
-          width: ref.style.width,
-          height: ref.style.height,
-          x: state.x, y: state.y,
-          ...position,
-          ...state.center
-        });
-      }}
-      className='Appp'
+      <Rnd
+        
+        onDrag={(e,d)=>{onStop(d.x,d.y)}}
+        onResize={(e, direction, ref, delta, position) => {
+          setState({
+            width: ref.style.width,
+            height: ref.style.height,
+            x: state.x, y: state.y,
+            ...position,
+            innerY:state.innerY,innerX:state.innerX
+          });
+        }}
+        size={{ width: state.width,  height: state.height }}
+        position={{ x: state.x, y: state.y }}
+        onDragStop={(e, d) => { onStop(d.x,d.y) }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          setState({
+            width: ref.style.width,
+            height: ref.style.height,
+            x: state.x, y: state.y,
+            ...position,
+            innerY:state.innerY,innerX:state.innerX
+          });
+        }}
       > 
          <Card border='dark' style={{width:state.width,height:state.height}} >
          

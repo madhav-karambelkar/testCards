@@ -12,14 +12,17 @@ function App() {
   const onStop = (data) =>
   {
     setState({data:data});
+    var docCenter = {xCenter : state.data.innerX , yCenter : state.data.innerY};
+    var distanceFromCenter = state.data.distance;
+    console.log("Center Coordinate , Distance",docCenter,distanceFromCenter) 
   }
-  console.log("Inner h W", window.innerHeight,window.innerWidth);
+ // console.log("Inner h W", window.innerHeight,window.innerWidth);
   return (
   <>
   <div className="App" ref={el => {
         if (!el) return;
 //        console.log("CONDITION",((state.data.y+state.data.height)>window.innerHeight || (state.data.x+state.data.width)>window.innerWidth))
-        if(state!= null && ((state.data.y+state.data.height)>window.innerHeight || (state.data.x+state.data.width)>window.innerWidth))
+        if(state!= null && ((state.data.y)>window.innerHeight || (state.data.x)>window.innerWidth))
         {
           window.innerHeight = window.innerHeight + state.data.height;
           el.style.height = `${window.innerHeight}px`
@@ -43,7 +46,14 @@ function App() {
         }
       }}
   >
-    sew
+    <span ref={re => {
+      if(!re) return;
+      if(state!=null)
+      {
+        re.style.left = `${state.data.innerX}px`
+        re.style.right = `${state.data.innerY}px`
+      } 
+    }}>dsds</span>sew
     <TestRND coordinate={onStop.bind(this)} />
     <TestRND coordinate={onStop.bind(this)} />
         </div>
